@@ -8,7 +8,8 @@ const CLIENT_ID = 'ca073cbf6c134b2ab15feffa2b103ff5'
 const CLIENT_SECRET = 'd280b618b12e4539859ab212fa633183'
 function App() {
   const [ searchInput, setSearchInput ] = useState("");
-
+  const [ accessToken, setAccessToken] = useState("");
+  const [ albums, setAlbums ] = useState([]);
   useEffect(() => {
     //API Access Token
     var authParams = {
@@ -21,8 +22,33 @@ function App() {
     }
     fetch('http://accounts.spotify.com/api/token', authParams)
       .then(result => result.json())
-      .then(data => console.log(data))
+      .then(data => setAccessToken(data.access_token))
   }, [])
+
+  //Search, async bc we have a lot of fetch statements, need to wait to do sequentially
+  async function search(){
+    console.log("Search for " + searchInput);
+
+    // Get request using search to get the Artist ID
+    var searchParameters = {
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + accessToken
+      }
+    }
+    var artistID = await fetch('https://api.spotify.com/v1/search?q=' + searchInput + '&type=artist', searchParameters)
+    .then(response => response.json())
+    .then(data => { return data.artists.items[0].id})
+
+    // Get request w artist Id, grab all albums from artist
+    var returnedAlbums= await fetch('https://api.spotify.com/v1/artists/' + artistID + '/albums'+ '?include_groups=album&market=US&limit=50', searchParameters)
+    .then(response => response.json())
+    .then(data => { 
+      console.log(data);
+      setAlbums(data.items);
+    });
+  }
 
   return (
     <div className="App">
@@ -32,42 +58,30 @@ function App() {
             placeholder="search for artist"
             type="input" // Use "text" for text input
             onKeyPress={event => {
-              if (event.key == "Enter") {
-                console.log("Pressed Enter");
+              if (event.key === "Enter") {
+                search();
               }
             }}
             onChange={event => setSearchInput(event.target.value)}
           />
-          <Button onClick={() => {console.log("clicked button")}}>
+          <Button onClick={search}>
+            Search
           </Button>
         </InputGroup>
       </Container>
       <Container>
         <Row className='mx-2 row row-cols-4'>
-          <Card>
-            <Card.Img src="#"/>
-            <Card.Body>
-              <Card.Title>Album Name Here</Card.Title>
-            </Card.Body>
-          </Card>
-          <Card>
-            <Card.Img src="#"/>
-            <Card.Body>
-              <Card.Title>Album Name Here</Card.Title>
-            </Card.Body>
-          </Card>
-          <Card>
-            <Card.Img src="#"/>
-            <Card.Body>
-              <Card.Title>Album Name Here</Card.Title>
-            </Card.Body>
-          </Card>
-          <Card>
-            <Card.Img src="#"/>
-            <Card.Body>
-              <Card.Title>Album Name Here</Card.Title>
-            </Card.Body>
-          </Card>
+          {albums.map( (album, i) => {
+            return (
+              <Card key={album.id}>
+                <Card.Img src={album.images[0].url}/>
+                <Card.Body>
+                  <Card.Title>{album.name}</Card.Title>
+                </Card.Body>
+              </Card>
+            )
+            })}
+
         </Row>
       </Container>
     </div>
