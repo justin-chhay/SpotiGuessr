@@ -52,6 +52,7 @@ function App() {
 
   return (
     <div className="App">
+    <h1 className="text-3xl font-bold underline">SpotiGuessr</h1>
       <Container>
         <InputGroup className="mb-3" size="lg">
           <FormControl
