@@ -6,10 +6,18 @@ import { useState, useEffect } from 'react'
 
 const CLIENT_ID = 'ca073cbf6c134b2ab15feffa2b103ff5'
 const CLIENT_SECRET = 'd280b618b12e4539859ab212fa633183'
+const SPOTIFY_AUTH_ENDPOINT = "https://accounts.spotify.com/authorize"
+const REDIRECT_URL_AFTER_LOGIN = "http://localhost:3000/callback"
+const SPACE_DELIMITER = "%20";
+const SCOPES = ["user-read-currently-playing", "user-read-playback-state"];
+const SCOPES_URL_PARAM = SCOPES.join(SPACE_DELIMITER);
+
+
 function App() {
   const [ searchInput, setSearchInput ] = useState("");
   const [ accessToken, setAccessToken] = useState("");
   const [ albums, setAlbums ] = useState([]);
+  
   useEffect(() => {
     //API Access Token
     var authParams = {
@@ -49,10 +57,17 @@ function App() {
       setAlbums(data.items);
     });
   }
+  
+  const handleLogin = () => {
+    window.location = `${SPOTIFY_AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URL_AFTER_LOGIN}&scope=${SCOPES_URL_PARAM}&response_type=token&show_dialog=true`;
+  };
 
   return (
     <div className="App">
-    <h1 className="text-3xl font-bold underline">SpotiGuessr</h1>
+      <Container>
+        <h1 className="text-3xl font-bold underline">SpotiGuessr</h1>
+        <button onClick={handleLogin}>login to spotify</button>
+      </Container>
       <Container>
         <InputGroup className="mb-3" size="lg">
           <FormControl
