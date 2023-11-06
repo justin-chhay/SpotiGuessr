@@ -7,6 +7,8 @@ import {Routes, Route} from 'react-router-dom'
 import React from 'react'
 import Navbar from './components/Navbar'
 import Home from './pages/Home'
+import Login from './pages/Login'
+import Search from './pages/Search'
 
 const CLIENT_ID = 'ca073cbf6c134b2ab15feffa2b103ff5'
 const CLIENT_SECRET = 'd280b618b12e4539859ab212fa633183'
@@ -18,17 +20,14 @@ const SCOPES_URL_PARAM = SCOPES.join(SPACE_DELIMITER);
 
 
 function App() {
-  
-  const handleLogin = () => {
-    window.location = `${SPOTIFY_AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URL_AFTER_LOGIN}&scope=${SCOPES_URL_PARAM}&response_type=token&show_dialog=true`;
-  };
 
   return (
     <React.Fragment>
       <Navbar/>
       <Routes>
         <Route path='/' element={<Home/>} />
-        <Route path='/' element={<Login/>} />
+        <Route path='/login' element={<Login/>} />
+        <Route path='/search' element={<Search/>} />
       </Routes>
     </React.Fragment>
   )

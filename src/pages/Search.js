@@ -61,7 +61,6 @@ function Search() {
     <div className="App">
       <Container>
         <h1 className="text-3xl font-bold underline">SpotiGuessr</h1>
-        <button>login to spotify</button>
       </Container>
       <Container>
         <InputGroup className="mb-3" size="lg">

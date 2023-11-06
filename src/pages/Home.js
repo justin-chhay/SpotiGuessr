@@ -19,7 +19,7 @@ function Home() {
     <div className="App">
       <Container>
         <h1 className="text-3xl font-bold underline">SpotiGuessr</h1>
-        <button>login to spotify</button>
+        <h2>Welcome home, instructions here</h2>
       </Container>
     </div>
     )
