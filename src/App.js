@@ -7,17 +7,7 @@ import {Routes, Route} from 'react-router-dom'
 import React from 'react'
 import Navbar from './components/Navbar'
 import Home from './pages/Home'
-import Login from './pages/Login'
 import Search from './pages/Search'
-
-const CLIENT_ID = 'ca073cbf6c134b2ab15feffa2b103ff5'
-const CLIENT_SECRET = 'd280b618b12e4539859ab212fa633183'
-const SPOTIFY_AUTH_ENDPOINT = "https://accounts.spotify.com/authorize"
-const REDIRECT_URL_AFTER_LOGIN = "http://localhost:3000/callback"
-const SPACE_DELIMITER = "%20";
-const SCOPES = ["user-read-currently-playing", "user-read-playback-state"];
-const SCOPES_URL_PARAM = SCOPES.join(SPACE_DELIMITER);
-
 
 function App() {
 
@@ -26,7 +16,6 @@ function App() {
       <Navbar/>
       <Routes>
         <Route path='/' element={<Home/>} />
-        <Route path='/login' element={<Login/>} />
         <Route path='/search' element={<Search/>} />
       </Routes>
     </React.Fragment>
