@@ -1,5 +1,4 @@
 import React from 'react'
-import Navbar from '../components/Navbar'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Container, InputGroup, FormControl, Button, Row, Card, CardBody} from 'react-bootstrap';
 import { useState, useEffect } from 'react'
@@ -12,7 +11,7 @@ const SPACE_DELIMITER = "%20";
 const SCOPES = ["user-read-currently-playing", "user-read-playback-state"];
 const SCOPES_URL_PARAM = SCOPES.join(SPACE_DELIMITER);
 
-function Search() {
+const Search = () => {
     const [ searchInput, setSearchInput ] = useState("");
     const [ accessToken, setAccessToken] = useState("");
     const [ albums, setAlbums ] = useState([]);
@@ -59,9 +58,6 @@ function Search() {
 
     return(
     <div className="App">
-      <Container>
-        <h1 className="text-3xl font-bold underline">SpotiGuessr</h1>
-      </Container>
       <Container>
         <InputGroup className="mb-3" size="lg">
           <FormControl
