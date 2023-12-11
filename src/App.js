@@ -1,8 +1,5 @@
-import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Container, InputGroup, FormControl, Button, Row, Card, CardBody} from 'react-bootstrap';
-import { useState, useEffect } from 'react'
 import {Routes, Route} from 'react-router-dom'
 import React from 'react'
 import Navbar from './components/Navbar'
