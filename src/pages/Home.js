@@ -1,6 +1,6 @@
 import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Container} from 'react-bootstrap';
+import {Container, Button} from 'react-bootstrap';
 import { useState, useEffect } from 'react'
 import PlayerProfile from '../components/PlayerProfile'
 import { useNavigate } from "react-router-dom";
@@ -56,20 +56,28 @@ const Home= () => {
     
 
     return(
-    <div className="App">
+    <div className="App text-white">
       <Container>
-        <h3 className="text-3xl font-bold underline">instructionss.. </h3>
+        <h3 className="text-3xl font-bold underline mt-5">Welcome </h3>
         <PlayerProfile props={user_data}/>
-        <button onClick={() => {
-          navigate("/game")
-        }}>Play</button>
-        <button onClick={() => {
-          navigate("/search")
-        }}>Search</button>
-        <button onClick={() => {
-          navigate("/settings")
-        }}>Settings</button>
       </Container>
+      <div className='Menu'>
+        <Container>
+          <Button className='bg-white text-black' onClick={() => {
+              navigate("/game")
+            }}>Play</Button>
+          </Container>
+          <Container>
+            <Button className='bg-white text-black' onClick={() => {
+              navigate("/search")
+            }}>Search</Button>
+          </Container>
+          <Container>
+            <Button className='bg-white text-black' onClick={() => {
+              navigate("/settings")
+            }}>Settings</Button>
+          </Container>
+        </div>
     </div>
     )
 }

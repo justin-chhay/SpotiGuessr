@@ -24,8 +24,8 @@ const Login = () => {
     return (
     <div className="App">
         <Container>
-          <h3 className="text-3xl font-bold underline">Test your knowledge on your own music taste! How well do you know your favourite songs?</h3>
-          <button onClick={handleLogin}>Login To Spotify</button>
+          <h3 className="text-3xl font-bold underline text-white">Test your knowledge on your own music taste! How well do you know your favourite songs?</h3>
+          <button className='text-white' onClick={handleLogin}>Login To Spotify</button>
         </Container> 
     </div>
     )
