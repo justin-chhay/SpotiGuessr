@@ -9,9 +9,9 @@ const PlayerProfile = ({props}) => {
    let profile_pic = ""
    let uri = props.uri
    
- //  if (profile_pic.images[1]) {
- //    profile_pic = props.images[1].url
- //  }
+   if (props.images != null) {
+     profile_pic = props.images[1].url
+   }
 
     return (
         <section id="profile">
