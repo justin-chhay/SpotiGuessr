@@ -1,10 +1,22 @@
 import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Container, InputGroup, FormControl, Button, Row, Card, CardBody} from 'react-bootstrap';
+import {Container} from 'react-bootstrap';
 import { useState, useEffect } from 'react'
 import PlayerProfile from '../components/PlayerProfile'
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 
+const getReturnedParamsFromSpotifyAuth = (hash) => {
+  const stringAfterHashtag = hash.substring(1);
+  const paramsInUrl = stringAfterHashtag.split("&");
+  const paramsSplitUp = paramsInUrl.reduce((accumulater, currentValue) => {
+    const [key, value] = currentValue.split("=");
+    accumulater[key] = value;
+    return accumulater;
+  }, {});
+
+  return paramsSplitUp;
+};
 
 /* 
 http://localhost:3000/webapp#access_token=ABCqxL4Y&token_type=Bearer&expires_in=3600
@@ -12,24 +24,33 @@ http://localhost:3000/webapp#access_token=ABCqxL4Y&token_type=Bearer&expires_in=
 
 const Home= () => {
   const navigate = useNavigate();
+  const [user_data, setUserData] = useState("");
+  const [user_token, setUserToken] = useState("");
 
     useEffect(() => {
-      //update profile data every refresh on homepage
-      fetchProfile();
+      const { access_token, expires_in, token_type } = getReturnedParamsFromSpotifyAuth(window.location.hash);
+      window.localStorage.setItem('access_token', access_token);
+      const token = window.localStorage.getItem('access_token')
+      setUserToken(token);
+      //update profile data when changed
+      fetchProfile(token);
 
-
-    });
+     }, []); //no dependencies, only runs on mount
 
 
     //grab profile data using token from login
-    async function fetchProfile() {
-      console.log("HELLLOO")
-      let _token = window.localStorage.getItem('access_token')
-      console.log(_token);
-      const result = await fetch("https://api.spotify.com/v1/me", {
-          method: "GET", headers: { Authorization: `Bearer ${_token}` }
-      });
-      return await result.json();
+    async function fetchProfile(token) {
+      await axios.get("https://api.spotify.com/v1/me", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }).then( (response) => {
+       // console.log(response.data)
+        setUserData(response.data)
+      })
+      .catch((error) => {
+        console.log(error.response);
+      })
   }
 
     
@@ -38,7 +59,7 @@ const Home= () => {
     <div className="App">
       <Container>
         <h3 className="text-3xl font-bold underline">instructionss.. </h3>
-        <PlayerProfile props={fetchProfile}/>
+        <PlayerProfile props={user_data}/>
         <button onClick={() => {
           navigate("/game")
         }}>Play</button>

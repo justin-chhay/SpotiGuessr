@@ -1,17 +1,26 @@
 ﻿//if logged in
 
+const PlayerProfile = ({props}) => {
 
-const PlayerProfile = () => {
+
+
+
+   let username = props.display_name
+   let profile_pic = ""
+   let uri = props.uri
+   
+ //  if (profile_pic.images[1]) {
+ //    profile_pic = props.images[1].url
+ //  }
+
     return (
         <section id="profile">
-        <h2>Logged in as <span id="displayName"></span></h2>
-        <span id="avatar"></span>
+        <h2>Logged in as <span id="displayName">{username}</span></h2>
         <ul>
-            <li>User ID: <span id="id"></span></li>
-            <li>Email: <span id="email"></span></li>
-            <li>Spotify URI: <a id="uri" href="#"></a></li>
-            <li>Link: <a id="url" href="#"></a></li>
-            <li>Profile Image: <span id="imgUrl"></span></li>
+        <img src={profile_pic} alt="userimage"></img>
+            <li>User ID: {username}</li>
+            <li><a href={uri}>Spotify URI: {uri}</a></li>
+        
         </ul>
         </section>
     )

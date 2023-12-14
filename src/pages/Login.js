@@ -1,7 +1,7 @@
 ﻿import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Container, InputGroup, FormControl, Button, Row, Card, CardBody} from 'react-bootstrap';
-import { useState, useEffect } from 'react'
+import {Container} from 'react-bootstrap';
+import {useEffect } from 'react'
 
 
 const CLIENT_ID = 'ca073cbf6c134b2ab15feffa2b103ff5'
@@ -11,33 +11,14 @@ const SPACE_DELIMITER = "%20";
 const SCOPES = ["user-read-currently-playing", "user-read-playback-state"];
 const SCOPES_URL_PARAM = SCOPES.join(SPACE_DELIMITER);
 
-const getReturnedParamsFromSpotifyAuth = (hash) => {
-  const stringAfterHashtag = hash.substring(1);
-  const paramsInUrl = stringAfterHashtag.split("&");
-  const paramsSplitUp = paramsInUrl.reduce((accumulater, currentValue) => {
-    console.log(currentValue);
-    const [key, value] = currentValue.split("=");
-    accumulater[key] = value;
-    return accumulater;
-  }, {});
-
-  return paramsSplitUp;
-};
 
 const Login = () => {
   useEffect(() => {
-    if (window.location.hash) {
-      const { access_token, expires_in, token_type } = getReturnedParamsFromSpotifyAuth(window.location.hash);
-      console.log(access_token)
 
-      localStorage.setItem("accessToken", access_token);
-      console.log(window.localStorage.getItem('access_token'))
-
-    }
     });
 
     const handleLogin = () => {
-      window.location = `${SPOTIFY_AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URL_AFTER_LOGIN}&response_type=token`;
+      window.location = `${SPOTIFY_AUTH_ENDPOINT}?client_id=${CLIENT_ID}&scope=${SCOPES_URL_PARAM}&redirect_uri=${REDIRECT_URL_AFTER_LOGIN}&response_type=token`;
     };
 
     return (
