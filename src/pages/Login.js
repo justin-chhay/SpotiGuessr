@@ -2,11 +2,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Container, InputGroup, FormControl, Button, Row, Card, CardBody} from 'react-bootstrap';
 import { useState, useEffect } from 'react'
-import {Routes, Route} from 'react-router-dom'
-import Home from './Home'
-import Search from './Search'
-import { BrowserRouter } from 'react-router-dom';
-import { setClientToken } from "../services/Spotify";
 
 
 const CLIENT_ID = 'ca073cbf6c134b2ab15feffa2b103ff5'
@@ -33,8 +28,10 @@ const Login = () => {
   useEffect(() => {
     if (window.location.hash) {
       const { access_token, expires_in, token_type } = getReturnedParamsFromSpotifyAuth(window.location.hash);
-      localStorage.clear();
+      console.log(access_token)
+
       localStorage.setItem("accessToken", access_token);
+      console.log(window.localStorage.getItem('access_token'))
 
     }
     });
