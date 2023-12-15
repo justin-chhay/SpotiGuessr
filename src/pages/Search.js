@@ -3,8 +3,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {Container, InputGroup, FormControl, Button, Row, Card, CardBody} from 'react-bootstrap';
 import { useState, useEffect } from 'react'
 
-const CLIENT_ID = 'ca073cbf6c134b2ab15feffa2b103ff5'
-const CLIENT_SECRET = 'd280b618b12e4539859ab212fa633183'
+const CLIENT_ID = process.env.REACT_APP_CLIENT_ID
+const CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET
 const SPOTIFY_AUTH_ENDPOINT = "https://accounts.spotify.com/authorize"
 const REDIRECT_URL_AFTER_LOGIN = "http://localhost:3000/callback"
 const SPACE_DELIMITER = "%20";

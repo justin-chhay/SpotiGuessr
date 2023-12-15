@@ -4,11 +4,20 @@ import {Container} from 'react-bootstrap';
 import {useEffect } from 'react'
 
 
-const CLIENT_ID = 'ca073cbf6c134b2ab15feffa2b103ff5'
+const CLIENT_ID = process.env.REACT_APP_CLIENT_ID
 const SPOTIFY_AUTH_ENDPOINT = "https://accounts.spotify.com/authorize"
 const REDIRECT_URL_AFTER_LOGIN = "http://localhost:3000/home/"
 const SPACE_DELIMITER = "%20";
-const SCOPES = ["user-read-currently-playing", "user-read-playback-state"];
+const SCOPES = [
+  "user-read-currently-playing", 
+  "user-read-playback-state",
+  "streaming",
+  "user-read-email",
+  "user-read-private",
+  "user-library-read",
+  "user-library-modify",
+  "user-read-playback-state",
+  "user-modify-playback-state"];
 const SCOPES_URL_PARAM = SCOPES.join(SPACE_DELIMITER);
 
 

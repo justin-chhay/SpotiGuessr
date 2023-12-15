@@ -82,6 +82,7 @@ const Home= () => {
               //delete access token
               setUserData(null);
               setUserToken(null);
+              window.localStorage.removeItem('access_token');
               //redirect to login page
               navigate("/");
             }}>Logout</Button>
