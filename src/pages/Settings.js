@@ -9,7 +9,7 @@ const Settings = () => {
 
 
     return (
-    <div className="App">
+    <div className="App text-white">
         <Container>
           <h3 className="text-3xl font-bold underline">Settings</h3>
         </Container> 
