@@ -18,7 +18,7 @@ const Login = () => {
     });
 
     const handleLogin = () => {
-      window.location = `${SPOTIFY_AUTH_ENDPOINT}?client_id=${CLIENT_ID}&scope=${SCOPES_URL_PARAM}&redirect_uri=${REDIRECT_URL_AFTER_LOGIN}&response_type=token`;
+      window.location = `${SPOTIFY_AUTH_ENDPOINT}?client_id=${CLIENT_ID}&scope=${SCOPES_URL_PARAM}&redirect_uri=${REDIRECT_URL_AFTER_LOGIN}&response_type=token&show_dialog=true`;
     };
 
     return (

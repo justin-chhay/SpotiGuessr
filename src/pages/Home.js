@@ -77,6 +77,15 @@ const Home= () => {
               navigate("/settings")
             }}>Settings</Button>
           </Container>
+          <Container>
+            <Button className='bg-white text-black' onClick={() => {
+              //delete access token
+              setUserData(null);
+              setUserToken(null);
+              //redirect to login page
+              navigate("/");
+            }}>Logout</Button>
+          </Container>
         </div>
     </div>
     )
