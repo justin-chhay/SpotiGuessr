@@ -5,11 +5,6 @@ import { useState, useEffect } from 'react'
 
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID
 const CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET
-const SPOTIFY_AUTH_ENDPOINT = "https://accounts.spotify.com/authorize"
-const REDIRECT_URL_AFTER_LOGIN = "http://localhost:3000/callback"
-const SPACE_DELIMITER = "%20";
-const SCOPES = ["user-read-currently-playing", "user-read-playback-state"];
-const SCOPES_URL_PARAM = SCOPES.join(SPACE_DELIMITER);
 
 const Search = () => {
     const [ searchInput, setSearchInput ] = useState("");

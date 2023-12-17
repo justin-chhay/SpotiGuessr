@@ -2,9 +2,10 @@ import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Container, Button} from 'react-bootstrap';
 import { useState, useEffect } from 'react'
-import PlayerProfile from '../components/PlayerProfile'
+import UserProfile from '../components/UserProfile'
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
+import {getToken} from '../Services/spotifyAuth'
 
 const getReturnedParamsFromSpotifyAuth = (hash) => {
   const stringAfterHashtag = hash.substring(1);
@@ -25,13 +26,10 @@ http://localhost:3000/webapp#access_token=ABCqxL4Y&token_type=Bearer&expires_in=
 const Home= () => {
   const navigate = useNavigate();
   const [user_data, setUserData] = useState("");
-  const [user_token, setUserToken] = useState("");
 
     useEffect(() => {
-      const { access_token, expires_in, token_type } = getReturnedParamsFromSpotifyAuth(window.location.hash);
-      window.localStorage.setItem('access_token', access_token);
+      getToken();
       const token = window.localStorage.getItem('access_token')
-      setUserToken(token);
       //update profile data when changed
       fetchProfile(token);
 
@@ -53,13 +51,11 @@ const Home= () => {
       })
   }
 
-    
-
     return(
     <div className="App text-white">
       <Container>
         <h3 className="text-3xl font-bold underline mt-5">Welcome </h3>
-        <PlayerProfile props={user_data}/>
+        <UserProfile props={user_data}/>
       </Container>
       <div className='Menu'>
         <Container>
@@ -81,7 +77,6 @@ const Home= () => {
             <Button className='bg-white text-black' onClick={() => {
               //delete access token
               setUserData(null);
-              setUserToken(null);
               window.localStorage.removeItem('access_token');
               //redirect to login page
               navigate("/");
