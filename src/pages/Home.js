@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react'
 import UserProfile from '../components/UserProfile'
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
-import {getToken} from '../Services/spotifyAuth'
+import {grabToken, getToken} from '../Services/spotifyAuth'
 
 const getReturnedParamsFromSpotifyAuth = (hash) => {
   const stringAfterHashtag = hash.substring(1);
@@ -28,13 +28,12 @@ const Home= () => {
   const [user_data, setUserData] = useState("");
 
     useEffect(() => {
-      getToken();
-      const token = window.localStorage.getItem('access_token')
+      grabToken();
+      const token = getToken();
       //update profile data when changed
       fetchProfile(token);
 
      }, []); //no dependencies, only runs on mount
-
 
     //grab profile data using token from login
     async function fetchProfile(token) {
@@ -57,8 +56,7 @@ const Home= () => {
         <h3 className="text-3xl font-bold underline mt-5">Welcome </h3>
         <UserProfile props={user_data}/>
       </Container>
-      <div className='Menu'>
-        <Container>
+      <Container>
           <Button className='bg-white text-black' onClick={() => {
               navigate("/game")
             }}>Play</Button>
@@ -81,8 +79,7 @@ const Home= () => {
               //redirect to login page
               navigate("/");
             }}>Logout</Button>
-          </Container>
-        </div>
+        </Container>
     </div>
     )
 }

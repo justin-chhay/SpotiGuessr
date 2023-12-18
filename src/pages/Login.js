@@ -1,8 +1,7 @@
 ﻿import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Container} from 'react-bootstrap';
-import {useEffect } from 'react'
-import {handleLogin, hello} from '../Services/spotifyAuth'
+import {handleLogin} from '../Services/spotifyAuth'
 
 const Login = () => {
 
