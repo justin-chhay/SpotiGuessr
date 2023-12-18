@@ -35,7 +35,17 @@ export const handleLogin = () => {
       window.location = `${SPOTIFY_AUTH_ENDPOINT}?client_id=${CLIENT_ID}&scope=${SCOPES_URL_PARAM}&redirect_uri=${REDIRECT_URL_AFTER_LOGIN}&response_type=token&show_dialog=true`;
 };
 
-export const getToken = () => {
+export function getToken(){
+  return window.localStorage.getItem('access_token');
+}
+
+export function refreshToken(){
+  return window.localStorage.getItem('access_token');
+}
+
+export const grabToken = () => {
     const { access_token, expires_in, token_type } = getReturnedParamsFromSpotifyAuth(window.location.hash);
+
     window.localStorage.setItem('access_token', access_token);
+    window.localStorage.setItem('expires_in', expires_in);
 }
