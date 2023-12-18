@@ -9,9 +9,7 @@ import Settings from './pages/Settings';
 
 function App() {
   return (
-    <div className="relative flex h-screen bg-black">
-      <div className="flex-1">
-        <div className="h-full pb-40">
+    <div className="relative flex min-h-screen bg-black">
           <Routes>
             <Route path="/" element={<Login />} />
             <Route path="/home" element={<Home />} />
@@ -19,8 +17,6 @@ function App() {
             <Route path="/game" element={<Game />} />
             <Route path="/settings" element={<Settings />} />
           </Routes>
-        </div>
-      </div>
     </div>
   );
 }
