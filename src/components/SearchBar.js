@@ -30,6 +30,7 @@ const SearchBar = () => {
     //to close dropdown search results menu
     setSearchResults([])
   }
+
   useEffect(() => {
     if (!getToken())return
     spotifyApi.setAccessToken(accessToken);
@@ -76,7 +77,7 @@ const SearchBar = () => {
             style={{height:"300px", width:"300px"}} alt="" />
             Your answer: {chosenSong.name} by {chosenSong.artists[0].name}
           </div>
-        ) : (<>{console.log(chosenSong)}</> )
+        ) : (<></> )
         }
           
         <Button className='mb-5'>
