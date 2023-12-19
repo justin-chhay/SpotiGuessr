@@ -10,10 +10,10 @@ A React web app that tests the player on their personal Spotify playlist knowled
 Clone the repository to your local machine with `git clone`
 
 To install all dependencies within the root folder, paste this in your terminal
-` npm install `
+### `npm install`
 
 Run the project on localhost:3000
-` npm start `
+### `npm start`
 
 ## To Do
 - clean up refresh token logic
