@@ -2,10 +2,33 @@
 import SpotifyWebApi from 'spotify-web-api-node'
 import { Container, Button } from "react-bootstrap"
 
-export default function Player({ accessToken, trackUri }) {
+const Player = (props) => {
+
+  // HERE GRAB THE AUDIO FOR THE SONGS RANDOMY SELECTED
+
  // const [play, setPlay] = useState(false)
 
  // useEffect(() => setPlay(true), [trackUri])
+
+ /*
+  useEffect(() => {
+    // Function to play 5-second audio snippets
+    const playAudioSnippet = () => {
+      const audio = new Audio(tracks[currentTrackIndex].preview_url);
+      audio.play();
+
+      setTimeout(() => {
+        audio.pause();
+        setCurrentTrackIndex((prevIndex) =>
+          prevIndex === tracks.length - 1 ? 0 : prevIndex + 1
+        );
+      }, 5000);
+    };
+
+    if (tracks.length > 0) {
+      playAudioSnippet();
+    }
+  }, [currentTrackIndex, tracks]);*/
 
  // if (!accessToken) return null
   return (
@@ -23,4 +46,6 @@ export default function Player({ accessToken, trackUri }) {
       </div>
     </Container>
   )
-}                                   
+}         
+
+export default Player;

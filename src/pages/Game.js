@@ -4,59 +4,85 @@ import {Container, InputGroup, FormControl, Button, Row, Card, CardBody} from 'r
 import { useState, useEffect } from 'react'
 import Player from '../components/Player';
 import SearchBar from '../components/SearchBar'
+import axios from 'axios'
+import { getToken } from '../Services/spotifyAuth'
 
-//grab snippets of songs from user playlist
-//webplayback sdk
-//also need to
-
+//1. grab random playlist from user DONE
+//2. get palylist items with the playlsit id DONE
+//2. grab 5/n random songs from playlist
+//3. pass the list of those songs to play audio for into props of Player component
 
 function Game() {
-  const [accessToken, setAccessToken] = useState(null);
-  const [playlistId, setPlaylistId] = useState(null);
+  var accessToken = getToken();
+  const [userPlaylists, setUserPlaylists] = useState([]);
   const [tracks, setTracks] = useState([]);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const [questionNo, setQuestionNo] = useState(0);
 
-  useEffect(() => {
-    setAccessToken(window.localStorage.getItem('access_token'));
-   // spotifyApi.setAccessToken(accessToken);
-  });
+  async function getUserPlaylists() {
+    var user_id = window.localStorage.getItem('user_id');
+    // display chosen answer with id
+    const endpoint = "https://api.spotify.com/v1/users/" + user_id + "/playlists"
 
-  useEffect(() => {
-    // Function to fetch playlist tracks
-    const fetchPlaylistTracks = async () => {
-      try {
-     //   const response = await spotifyApi.getPlaylistTracks(playlistId);
-      //  setTracks(response.items.map((item) => item.track));
-     //   console.log(response);
-      } catch (error) {
-        console.error('Error fetching playlist tracks', error);
-      }
-    };
+    await axios.get(endpoint, {
+        headers: {
+          Authorization: "Bearer " + accessToken
+        },
+      }).then((response) => {
+       // console.log(response.data)
+        setUserPlaylists(response.data.items);
+      })
+  }
 
-    if (accessToken && playlistId) {
-    //  fetchPlaylistTracks();
+  function getRandomPlaylist() {
+    if (userPlaylists.length == 0) return //so it doesnt access it when no data
+    let n = userPlaylists.length;
+    let chosenIndex = Math.floor(Math.random() * n);
+    var chosenPlaylist = userPlaylists[chosenIndex].id;
+    getTracks(chosenPlaylist);
+  }
+
+  async function getTracks(playlist_id){
+    let endpoint = "https://api.spotify.com/v1/playlists/" + playlist_id + "/tracks"//limited to 100
+
+    while(true){
+      await axios.get(endpoint, {
+        headers: {
+          Authorization: "Bearer " + accessToken
+        },
+      }).then((response) => {
+        console.log('tracksbeloww')
+        for (const item of response.data.items) {
+          const track = item.track;
+          tracks.push(track);
+          endpoint = response.data.next //go to next 100 songs
+        }}
+      )
+       if (!endpoint) break;
     }
-  }, [accessToken, playlistId]);
-/*
+    console.log(tracks)
+  }
+
+  function getNRandomSongs(){
+    let n = 5; //should be configurable in settings later on
+    let playlistSize = tracks.length
+    let chosenTracks = {};
+    let chosenIndex = Math.floor(Math.random() * n);
+
+  }
+
   useEffect(() => {
-    // Function to play 5-second audio snippets
-    const playAudioSnippet = () => {
-      const audio = new Audio(tracks[currentTrackIndex].preview_url);
-      audio.play();
+    if (!getToken()) return
+    accessToken = getToken();
+  }, [accessToken])
+  
 
-      setTimeout(() => {
-        audio.pause();
-        setCurrentTrackIndex((prevIndex) =>
-          prevIndex === tracks.length - 1 ? 0 : prevIndex + 1
-        );
-      }, 5000);
-    };
+  useEffect(() => {
+    getUserPlaylists();
+  },[]);
 
-    if (tracks.length > 0) {
-      playAudioSnippet();
-    }
-  }, [currentTrackIndex, tracks]);*/
+  getRandomPlaylist();
+
 
   return (
     <div className = "text-white">

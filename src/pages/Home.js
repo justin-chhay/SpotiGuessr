@@ -44,6 +44,7 @@ const Home= () => {
       }).then( (response) => {
        // console.log(response.data)
         setUserData(response.data)
+        window.localStorage.setItem('user_id', response.data.id);
       })
       .catch((error) => {
         console.log(error.response);
@@ -76,6 +77,7 @@ const Home= () => {
               //delete access token
               setUserData(null);
               window.localStorage.removeItem('access_token');
+              window.localStorage.removeItem('user_id');
               //redirect to login page
               navigate("/");
             }}>Logout</Button>
