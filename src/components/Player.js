@@ -1,51 +1,44 @@
-﻿import { useState, useEffect } from "react"
-import SpotifyWebApi from 'spotify-web-api-node'
-import { Container, Button } from "react-bootstrap"
+﻿import React, { useState, useEffect } from "react";
+import { Container, Button } from "react-bootstrap";
+import axios from 'axios';
+import WebPlayback from "./WebPlayback";
 
 const Player = (props) => {
+  let selectSongs = props.selectedSongs;
+  const [trackUris, setTrackUris] = useState(new Array(5).fill(""));
+  const accessToken = localStorage.getItem("access_token");
 
-  // HERE GRAB THE AUDIO FOR THE SONGS RANDOMY SELECTED
-
- // const [play, setPlay] = useState(false)
-
- // useEffect(() => setPlay(true), [trackUri])
-
- /*
   useEffect(() => {
-    // Function to play 5-second audio snippets
-    const playAudioSnippet = () => {
-      const audio = new Audio(tracks[currentTrackIndex].preview_url);
-      audio.play();
-
-      setTimeout(() => {
-        audio.pause();
-        setCurrentTrackIndex((prevIndex) =>
-          prevIndex === tracks.length - 1 ? 0 : prevIndex + 1
-        );
-      }, 5000);
-    };
-
-    if (tracks.length > 0) {
-      playAudioSnippet();
+    try{
+      let newTrackUris = [];
+      //console.log(selectSongs)
+      for (let i = 0; i < 5; i++) {
+        newTrackUris.push(selectSongs[i].uri);
+      }
+     // console.log(newTrackUris)
+      setTrackUris(newTrackUris);
+     // console.log(trackUris)
+    } catch(error){
     }
-  }, [currentTrackIndex, tracks]);*/
+    //setTrackUris([...selectSongs]);
+  }, [selectSongs]); //whenever selected songs changes
 
- // if (!accessToken) return null
-  return (
+  return ( 
     <Container>
       <div className="Audio">
-        <h1 className="text-white">
-          Guess the song
-        </h1>
-
-        Audio Waveformw ith animation hereee
-      </div>
+        <h1 className="text-white">Guess the song</h1>
+         {/*Audio timer bar here*/}
+      </div> 
       <div className="controls">
-        <Button className="mr-3">Play</Button>{/* Play audio clip from beginning */}
+        {console.log(trackUris)}
+        <Button className="mr-3">Play</Button>
         <Button className="ml-3">Stop</Button>
+        <WebPlayback
+          trackList={trackUris}
+        />
       </div>
     </Container>
-  )
-}         
+  );
+};
 
 export default Player;
