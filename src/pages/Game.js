@@ -79,6 +79,8 @@ function Game() {
     }
    // console.log('*****')
     setTracks(chosenTracks);
+    localStorage.setItem('currentSongId',chosenTracks[0].id)
+    localStorage.setItem('currentSongName',chosenTracks[0].name)
    // console.log('test')
     //console.log(tracks)
   }
@@ -100,8 +102,6 @@ function Game() {
   return (
     <div className = "text-white h-screen w-screen items-center">
       <h1 className='text-center m-3 underline'>Game</h1>
-      <h2 className='text-center m-6'>You have 5 random songs from your playlist to check </h2>
-      {console.log(tracks)}
       <Player selectedSongs={tracks}/>
       <SearchBar/>
 

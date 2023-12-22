@@ -24,15 +24,13 @@ const Player = (props) => {
   }, [selectSongs]); //whenever selected songs changes
 
   return ( 
-    <Container>
+    <Container className="Audio w-screen items-center justify-center m-4">
       <div className="Audio">
-        <h1 className="text-white">Guess the song</h1>
+        <h3 className="text-white mb-3">Guess the song:</h3>
          {/*Audio timer bar here*/}
       </div> 
-      <div className="controls">
+      <div className="controls items-center">
         {console.log(trackUris)}
-        <Button className="mr-3">Play</Button>
-        <Button className="ml-3">Stop</Button>
         <WebPlayback
           trackList={trackUris}
         />

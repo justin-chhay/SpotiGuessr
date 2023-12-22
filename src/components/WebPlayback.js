@@ -3,24 +3,10 @@ import { getToken } from '../Services/spotifyAuth';
 import { Button } from 'react-bootstrap';
 import axios from 'axios'
 
-const track = {
-    name: "",
-    album: {
-        images: [
-            { url: "" }
-        ]
-    },
-    artists: [
-        { name: "" }
-    ]
-}
-
 function WebPlayback(props) {
 
-    const [is_paused, setPaused] = useState(false);
     const [is_active, setActive] = useState(false);
     const [player, setPlayer] = useState(undefined);
-    const [current_track, setTrack] = useState(track);
     let accessToken = getToken();
 
     useEffect(() => {
@@ -58,9 +44,6 @@ function WebPlayback(props) {
                     return;
                 }
 
-                setTrack(props.trackList[0]);
-                setPaused(state.paused);
-
                 player.getCurrentState().then( state => { 
                     (!state)? setActive(false) : setActive(true) 
                 });
@@ -72,7 +55,7 @@ function WebPlayback(props) {
         };
     }, []);
 
-    async function playTrack1() {
+    async function playTrack() {
         let endpoint = `https://api.spotify.com/v1/me/player/play`;
         
         try {
@@ -85,6 +68,7 @@ function WebPlayback(props) {
               'Content-Type': 'application/json',
             },
           });
+          
       
           console.log('Track played successfully:', response.data);
         } catch (error) {
@@ -128,16 +112,15 @@ function WebPlayback(props) {
     } else {
         return (
             <>
-                <div className="container">
+                <div className="container flex justify-center">
                     <div className="main-wrapper">
 
                         <div className="now-playing__side">
 
-
                             <button className="btn-spotify" onClick={() => { player.previousTrack() }} >
                                 &lt;&lt;
                             </button>
-                            <Button className="btn-spotify" onClick={() => { playTrack1() }}>
+                            <Button className="btn-spotify m-3" onClick={() => { playTrack() }}>
                                 Play
                             </Button>
 

@@ -42,6 +42,9 @@ const SearchBar = () => {
     if (!accessToken) return;
     let cancel = false;
 
+    //reset the answer
+    setChosenSong([]);
+
     spotifyApi.searchTracks(search).then(response => {
       if (cancel)
         return;
@@ -67,12 +70,27 @@ const SearchBar = () => {
     return () => cancel = true
   }, [search, accessToken])
 
+  function verifySong(songId, name) {
+
+    let actual_song_id = localStorage.getItem('currentSongId')
+    let actual_song_name = localStorage.getItem('currentSongName')
+    console.log(actual_song_id)
+    console.log(songId)
+    if (actual_song_id === songId) {
+      if(actual_song_name === name) {
+        alert('Correct!');
+      }
+    } else {
+      alert('Wrong, try again!');
+    }
+  }
+
     return (
-      <Container className='d-flex flex-column py-2' style={({
+      <Container className='d-flex flex-column py-2 items-center' style={({
         height: "100vh"
       })}>
         {chosenSong.length !== 0 ? (
-          <div className='YourAnswer text-white mt-3 mb-3'> 
+          <div className='text-white mt-3 mb-3'> 
             <img src={chosenSong.album.images[1].url}
             style={{height:"300px", width:"300px"}} alt="" />
             Your answer: {chosenSong.name} by {chosenSong.artists[0].name}
@@ -80,9 +98,10 @@ const SearchBar = () => {
         ) : (<></> )
         }
           
-        <Button className='mb-5'>
+        <button className='mb-5 font-mono w-30 bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded-full'
+         onClick={() => verifySong(chosenSong.id, chosenSong.name)}>
           Submit
-        </Button>
+        </button>
 
         <Form.Control
             type = 'search'
