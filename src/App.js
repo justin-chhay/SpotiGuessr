@@ -5,7 +5,6 @@ import Home from './pages/Home';
 import Search from './pages/Search';
 import Login from './pages/Login';
 import Game from './pages/Game';
-import Settings from './pages/Settings';
 
 function App() {
   return (
@@ -15,7 +14,6 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/search" element={<Search />} />
             <Route path="/game" element={<Game />} />
-            <Route path="/settings" element={<Settings />} />
           </Routes>
     </div>
   );
