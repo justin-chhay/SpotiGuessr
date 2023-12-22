@@ -52,8 +52,8 @@ const Search = () => {
     }
 
     return(
-    <div className="App">
-      <Container>
+    <div className="App h-screen w-screen">
+      <Container className='mt-5'>
         <InputGroup className="mb-3" size="lg">
           <FormControl
             placeholder="search for artist"

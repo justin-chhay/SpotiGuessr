@@ -6,10 +6,13 @@ import {handleLogin} from '../Services/spotifyAuth'
 const Login = () => {
 
     return (
-    <div className="App">
-        <Container>
-          <h3 className="text-3xl font-bold underline text-white">Test your knowledge on your own music taste! How well do you know your favourite songs?</h3>
-          <button className='text-white' onClick={handleLogin}>Login To Spotify</button>
+    <div className="App h-screen w-screen flex justify-center items-center">
+        <Container className='text-center'>
+          <h3 className="font-serif text-3xl font-bold text-white text-center mb-4">Test your knowledge on your own music taste! <br></br>How well do you know your favourite songs?</h3>
+          <button className="font-mono bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-full"
+            onClick={handleLogin}>
+            Login to Spotify
+          </button>  
         </Container> 
     </div>
     )

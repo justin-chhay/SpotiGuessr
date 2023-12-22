@@ -7,22 +7,6 @@ import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import {grabToken, getToken} from '../Services/spotifyAuth'
 
-const getReturnedParamsFromSpotifyAuth = (hash) => {
-  const stringAfterHashtag = hash.substring(1);
-  const paramsInUrl = stringAfterHashtag.split("&");
-  const paramsSplitUp = paramsInUrl.reduce((accumulater, currentValue) => {
-    const [key, value] = currentValue.split("=");
-    accumulater[key] = value;
-    return accumulater;
-  }, {});
-
-  return paramsSplitUp;
-};
-
-/* 
-http://localhost:3000/webapp#access_token=ABCqxL4Y&token_type=Bearer&expires_in=3600
-*/
-
 const Home= () => {
   const navigate = useNavigate();
   const [user_data, setUserData] = useState("");
@@ -52,28 +36,21 @@ const Home= () => {
   }
 
     return(
-    <div className="App text-white">
-      <Container>
-        <h3 className="text-3xl font-bold underline mt-5">Welcome </h3>
+    <div className="App text-white h-screen w-screen flex justify-center items-center">
+      <Container className='m-5'>
+        <h3 className="text-3xl font-bold underline mt-5">Welcome back </h3>
         <UserProfile props={user_data}/>
       </Container>
-      <Container>
-          <Button className='bg-white text-black' onClick={() => {
+      <Container >
+          <Button className='bg-white text-black m-3' onClick={() => {
               navigate("/game")
             }}>Play</Button>
-          </Container>
-          <Container>
-            <Button className='bg-white text-black' onClick={() => {
+
+            <Button className='bg-white text-black m-3' onClick={() => {
               navigate("/search")
             }}>Search</Button>
-          </Container>
-          <Container>
-            <Button className='bg-white text-black' onClick={() => {
-              navigate("/settings")
-            }}>Settings</Button>
-          </Container>
-          <Container>
-            <Button className='bg-white text-black' onClick={() => {
+
+            <Button className='bg-white text-black m-3' onClick={() => {
               //delete access token
               setUserData(null);
               window.localStorage.removeItem('access_token');
@@ -81,6 +58,7 @@ const Home= () => {
               //redirect to login page
               navigate("/");
             }}>Logout</Button>
+            
         </Container>
     </div>
     )

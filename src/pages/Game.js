@@ -7,17 +7,11 @@ import SearchBar from '../components/SearchBar'
 import axios from 'axios'
 import { getToken } from '../Services/spotifyAuth'
 
-//1. grab random playlist from user DONE
-//2. get palylist items with the playlsit id DONE
-//2. grab 5/n random songs from playlist
-//3. pass the list of those songs to play audio for into props of Player component
-
 function Game() {
   var accessToken = getToken();
   const [userPlaylists, setUserPlaylists] = useState([]);
   const [tracks, setTracks] = useState([]);
-  const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
-  const [questionNo, setQuestionNo] = useState(0);
+  let chosenTracks = [];
 
   async function getUserPlaylists() {
     var user_id = window.localStorage.getItem('user_id');
@@ -35,61 +29,80 @@ function Game() {
   }
 
   function getRandomPlaylist() {
-    if (userPlaylists.length == 0) return //so it doesnt access it when no data
+    if (userPlaylists.length === 0) return //so it doesnt access it when no data
     let n = userPlaylists.length;
     let chosenIndex = Math.floor(Math.random() * n);
     var chosenPlaylist = userPlaylists[chosenIndex].id;
     getTracks(chosenPlaylist);
   }
 
-  async function getTracks(playlist_id){
-    let endpoint = "https://api.spotify.com/v1/playlists/" + playlist_id + "/tracks"//limited to 100
-
-    while(true){
-      await axios.get(endpoint, {
-        headers: {
-          Authorization: "Bearer " + accessToken
-        },
-      }).then((response) => {
-        console.log('tracksbeloww')
+  async function getTracks(playlist_id) {
+    let endpoint = `https://api.spotify.com/v1/playlists/${playlist_id}/tracks`; // limited to 100
+  
+    try {
+      do {
+        const response = await axios.get(endpoint, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+  
         for (const item of response.data.items) {
           const track = item.track;
           tracks.push(track);
-          endpoint = response.data.next //go to next 100 songs
-        }}
-      )
-       if (!endpoint) break;
+        }
+  
+        endpoint = response.data.next; // go to the next 100 songs
+      } while (endpoint);
+  
+      console.log(tracks);
+      getNRandomSongs();
+    } catch (error) {
+      console.error("Error fetching tracks:", error);
+      // Handle errors here
     }
-    console.log(tracks)
   }
 
-  function getNRandomSongs(){
-    let n = 5; //should be configurable in settings later on
+  function getNRandomSongs() {
+    let n = 5; // should be configurable in settings later on
     let playlistSize = tracks.length
-    let chosenTracks = {};
-    let chosenIndex = Math.floor(Math.random() * n);
-
+    if (chosenTracks.length !== 0) {
+      chosenTracks = [];
+      return;
+    }
+    let chosenIndex = -1;
+  
+    for (let i = 0; i < n; i++) {
+      chosenIndex = Math.floor(Math.random() * (playlistSize - i));
+      chosenTracks.push(tracks[chosenIndex]);
+      tracks.splice(chosenIndex, 1);
+    }
+   // console.log('*****')
+    setTracks(chosenTracks);
+   // console.log('test')
+    //console.log(tracks)
   }
-
+  
   useEffect(() => {
     if (!getToken()) return
     accessToken = getToken();
   }, [accessToken])
-  
 
   useEffect(() => {
     getUserPlaylists();
   },[]);
 
-  getRandomPlaylist();
+  useEffect(() => {
+    getRandomPlaylist();
+  }, [userPlaylists]);
 
 
   return (
-    <div className = "text-white">
-      <h1 className='text-center m-3'>Game</h1>
-      <h2 className='text-center m-6'>Round #{questionNo}</h2>
-      
-      <Player/>
+    <div className = "text-white h-screen w-screen items-center">
+      <h1 className='text-center m-3 underline'>Game</h1>
+      <h2 className='text-center m-6'>You have 5 random songs from your playlist to check </h2>
+      {console.log(tracks)}
+      <Player selectedSongs={tracks}/>
       <SearchBar/>
 
     </div>
@@ -97,36 +110,3 @@ function Game() {
 }
 
 export default Game;
-
-
-
-
-
-
-
-/*
-window.onSpotifyWebPlaybackSDKReady = () => {
-  const token = '[My access token]';
-  const player = new Spotify.Player({
-    name: 'Web Playback SDK Quick Start Player',
-    getOAuthToken: cb => { cb(token); },
-    volume: 0.5
-    });}
-
-const Game = () => {
-  useEffect(() => {
-    });
-
-
-    return (
-      
-    <div className="App text-white">
-      <script src="https://sdk.scdn.co/spotify-player.js"></script>
-        <Container>
-          <h3 className="text-3xl font-bold underline">Gameee</h3>
-        </Container> 
-    </div>
-    )
-}
-
-export default Game;*/
