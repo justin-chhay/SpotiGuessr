@@ -18,7 +18,7 @@ Run the project on localhost:3000
 ## Navigating through the App
 Upon login, you must authenticate your Spotify account as it is required for SpotiGuessr to be able to access your playlist data and user information. Keep in mind a premium account is required to allow playback of audio through the API!
 ![loginPage](./src/images/loginPage.png)
-![spotifyAuthPage](./src/images/homePage.png)
+![spotifyAuthPage](./src/images/spotifyAuthPage.png)
 
 Through the homepage you have the options to play a round, search through your playlists, or logout of the application.
 ![HomePage](./src/images/homePage.png)
