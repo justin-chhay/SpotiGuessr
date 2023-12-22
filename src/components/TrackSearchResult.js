@@ -4,6 +4,7 @@ const TrackSearchResult = ({track, onChooseTrack}) => {
 
     function chooseTrack() {
         const id = track.id; // Unique id for track
+        console.log(id)
         onChooseTrack(id);
       }
     

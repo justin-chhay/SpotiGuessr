@@ -1,9 +1,4 @@
-﻿//if logged in
-
-const UserProfile = ({props}) => {
-
-
-
+﻿const UserProfile = ({props}) => {
 
    let username = props.display_name
    let profile_pic = ""
@@ -14,16 +9,14 @@ const UserProfile = ({props}) => {
    }
 
     return (
-        <section id="profile">
-        <h2>Logged in as <span id="displayName">{username}</span></h2>
-        <ul>
-        <img src={profile_pic} alt="userimage"></img>
-            <li>User ID: {username}</li>
-            <li><a href={uri}>Spotify URI: {uri}</a></li>
-        
-        </ul>
-        </section>
+        <div>
+          <h2 className="mb-3">Logged in as <a className='text-white' href={uri}>
+            {username}
+            </a>
+          </h2>
+          <img className='rounded-full border-4 border-green-500' src={profile_pic} alt="userimage"></img>
+        </div>
     )
   }
   
-  export default UserProfile
+  export default UserProfile;
