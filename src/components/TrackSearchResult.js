@@ -3,12 +3,11 @@
 const TrackSearchResult = ({track, onChooseTrack}) => {
 
     function chooseTrack() {
-        const id = track.id; // Unique id for track
+        const id = track.id;
         console.log(id)
         onChooseTrack(id);
       }
     
-
     return (
       <div className="d-flex m-2 align-items-center"
       style={{ cursor: "pointer" }}
@@ -19,7 +18,6 @@ const TrackSearchResult = ({track, onChooseTrack}) => {
             <div>{track.title}</div>
             <div className="text-grey">{track.artist}</div>
         </div>
-
       </div>
     )
 }

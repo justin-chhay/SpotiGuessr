@@ -1,12 +1,10 @@
 ﻿import React, { useState, useEffect } from "react";
-import { Container, Button } from "react-bootstrap";
-import axios from 'axios';
+import { Container} from "react-bootstrap";
 import WebPlayback from "./WebPlayback";
 
 const Player = (props) => {
   let selectSongs = props.selectedSongs;
   const [trackUris, setTrackUris] = useState(new Array(5).fill(""));
-  const accessToken = localStorage.getItem("access_token");
 
   useEffect(() => {
     try{
@@ -15,12 +13,12 @@ const Player = (props) => {
       for (let i = 0; i < 5; i++) {
         newTrackUris.push(selectSongs[i].uri);
       }
-     // console.log(newTrackUris)
+      //console.log(newTrackUris)
       setTrackUris(newTrackUris);
-     // console.log(trackUris)
+      //console.log(trackUris)
     } catch(error){
+      console.log('An error occurred when retrieving the song links.')
     }
-    //setTrackUris([...selectSongs]);
   }, [selectSongs]); //whenever selected songs changes
 
   return ( 

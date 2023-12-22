@@ -1,6 +1,6 @@
 import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Container, InputGroup, FormControl, Button, Row, Card, CardBody} from 'react-bootstrap';
+import {Container, InputGroup, FormControl, Button, Row, Card} from 'react-bootstrap';
 import { useState, useEffect } from 'react'
 
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID
@@ -25,12 +25,8 @@ const Search = () => {
         .then(result => result.json())
         .then(data => setAccessToken(data.access_token))
     }, [])
-  
-    //Search, async bc we have a lot of fetch statements, need to wait to do sequentially
+
     async function search(){
-      console.log("Search for " + searchInput);
-  
-      // Get request using search to get the Artist ID
       var searchParameters = {
         method: "GET",
         headers: {
@@ -41,12 +37,10 @@ const Search = () => {
       var artistID = await fetch('https://api.spotify.com/v1/search?q=' + searchInput + '&type=artist', searchParameters)
       .then(response => response.json())
       .then(data => { return data.artists.items[0].id})
-  
-      // Get request w artist Id, grab all albums from artist
+
       var returnedAlbums= await fetch('https://api.spotify.com/v1/artists/' + artistID + '/albums'+ '?include_groups=album&market=US&limit=50', searchParameters)
       .then(response => response.json())
       .then(data => { 
-        console.log(data);
         setAlbums(data.items);
       });
     }

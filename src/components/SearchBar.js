@@ -1,5 +1,5 @@
 ﻿import React from 'react'
-import {Container, Form, Button} from 'react-bootstrap'
+import {Container, Form} from 'react-bootstrap'
 import { useState, useEffect } from 'react'
 import SpotifyWebApi from 'spotify-web-api-node'
 import { getToken } from '../Services/spotifyAuth'
@@ -26,7 +26,6 @@ const SearchBar = () => {
       }).then( (response) => {
         setChosenSong(response.data)
       })
-
     //to close dropdown search results menu
     setSearchResults([])
   }
@@ -41,10 +40,8 @@ const SearchBar = () => {
     if (!search) return setSearchResults([]);
     if (!accessToken) return;
     let cancel = false;
-
     //reset the answer
     setChosenSong([]);
-
     spotifyApi.searchTracks(search).then(response => {
       if (cancel)
         return;
@@ -66,12 +63,10 @@ const SearchBar = () => {
         }
       }))
     }, [accessToken])
-
     return () => cancel = true
   }, [search, accessToken])
 
   function verifySong(songId, name) {
-
     let actual_song_id = localStorage.getItem('currentSongId')
     let actual_song_name = localStorage.getItem('currentSongName')
     console.log(actual_song_id)
@@ -97,12 +92,10 @@ const SearchBar = () => {
           </div>
         ) : (<></> )
         }
-          
         <button className='mb-5 font-mono w-30 bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded-full'
-         onClick={() => verifySong(chosenSong.id, chosenSong.name)}>
+          onClick={() => verifySong(chosenSong.id, chosenSong.name)}>
           Submit
         </button>
-
         <Form.Control
             type = 'search'
             placeholder='Answer here'
@@ -121,4 +114,4 @@ const SearchBar = () => {
     )
 }
   
-  export default SearchBar;
+export default SearchBar;

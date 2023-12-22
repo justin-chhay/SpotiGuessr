@@ -14,9 +14,7 @@ const Home= () => {
     useEffect(() => {
       grabToken();
       const token = getToken();
-      //update profile data when changed
       fetchProfile(token);
-
      }, []); //no dependencies, only runs on mount
 
     //grab profile data using token from login
@@ -26,7 +24,7 @@ const Home= () => {
           Authorization: "Bearer " + token,
         },
       }).then( (response) => {
-       // console.log(response.data)
+       //console.log(response.data)
         setUserData(response.data)
         window.localStorage.setItem('user_id', response.data.id);
       })

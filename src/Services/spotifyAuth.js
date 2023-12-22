@@ -1,5 +1,4 @@
 ﻿import 'bootstrap/dist/css/bootstrap.min.css';
-import {useState, useEffect} from 'react'
 
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID
 const SPOTIFY_AUTH_ENDPOINT = "https://accounts.spotify.com/authorize"

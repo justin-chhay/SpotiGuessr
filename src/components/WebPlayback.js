@@ -16,15 +16,13 @@ function WebPlayback(props) {
         script.async = true;
 
         document.body.appendChild(script);
-
         window.onSpotifyWebPlaybackSDKReady = () => {
-
             const player = new window.Spotify.Player({
-                name: 'Web Playback SDK',
+                name: 'SpotiGuessr',
                 getOAuthToken: cb => { cb(accessToken); },
                 volume: 0.5
             });
-
+            
             setPlayer(player);
 
             //Ready
@@ -51,15 +49,13 @@ function WebPlayback(props) {
             }));
 
             player.connect();
-
         };
     }, []);
 
     async function playTrack() {
         let endpoint = `https://api.spotify.com/v1/me/player/play`;
-        
         try {
-          const response = await axios.put(endpoint, {
+          await axios.put(endpoint, {
             device_id: player.device_id,
             uris: props.trackList
           }, {
@@ -68,26 +64,20 @@ function WebPlayback(props) {
               'Content-Type': 'application/json',
             },
           });
-          
-      
-          console.log('Track played successfully:', response.data);
+          console.log('Track played successfully');
         } catch (error) {
           console.error('Error playing track:', error);
         }
 
-        // Wait for 5 seconds
+        // Play song for only the first few seconds
         setTimeout(() => {
-            console.log("After 5 seconds");
-            // Code to be executed after the delay
-
             let endpoint = `https://api.spotify.com/v1/me/player/pause`;
-        
             try {
-            const response = axios.put(endpoint, {
+            axios.put(endpoint, {
                 device_id: player.device_id,
             }, {
                 headers: {
-                'Authorization': `Bearer ` + accessToken, // Replace with your actual access token
+                'Authorization': `Bearer ` + accessToken,
                 'Content-Type': 'application/json',
                 },
             });
@@ -99,7 +89,6 @@ function WebPlayback(props) {
         }, 3000);
       }
       
-
     if (!is_active) { 
         return (
             <>
@@ -114,16 +103,13 @@ function WebPlayback(props) {
             <>
                 <div className="container flex justify-center">
                     <div className="main-wrapper">
-
-                        <div className="now-playing__side">
-
+                        <div className="now-playing_side">
                             <button className="btn-spotify" onClick={() => { player.previousTrack() }} >
                                 &lt;&lt;
                             </button>
                             <Button className="btn-spotify m-3" onClick={() => { playTrack() }}>
                                 Play
                             </Button>
-
                             <button className="btn-spotify" onClick={() => { player.nextTrack() }} >
                                 &gt;&gt;
                             </button>

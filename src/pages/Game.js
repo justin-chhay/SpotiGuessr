@@ -1,6 +1,5 @@
 ﻿import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Container, InputGroup, FormControl, Button, Row, Card, CardBody} from 'react-bootstrap';
 import { useState, useEffect } from 'react'
 import Player from '../components/Player';
 import SearchBar from '../components/SearchBar'
@@ -17,13 +16,12 @@ function Game() {
     var user_id = window.localStorage.getItem('user_id');
     // display chosen answer with id
     const endpoint = "https://api.spotify.com/v1/users/" + user_id + "/playlists"
-
     await axios.get(endpoint, {
         headers: {
           Authorization: "Bearer " + accessToken
         },
       }).then((response) => {
-       // console.log(response.data)
+        //console.log(response.data)
         setUserPlaylists(response.data.items);
       })
   }
@@ -37,8 +35,7 @@ function Game() {
   }
 
   async function getTracks(playlist_id) {
-    let endpoint = `https://api.spotify.com/v1/playlists/${playlist_id}/tracks`; // limited to 100
-  
+    let endpoint = `https://api.spotify.com/v1/playlists/${playlist_id}/tracks`; // limited to 100/api call
     try {
       do {
         const response = await axios.get(endpoint, {
@@ -46,12 +43,10 @@ function Game() {
             Authorization: `Bearer ${accessToken}`,
           },
         });
-  
         for (const item of response.data.items) {
           const track = item.track;
           tracks.push(track);
         }
-  
         endpoint = response.data.next; // go to the next 100 songs
       } while (endpoint);
   
@@ -59,29 +54,27 @@ function Game() {
       getNRandomSongs();
     } catch (error) {
       console.error("Error fetching tracks:", error);
-      // Handle errors here
     }
   }
 
   function getNRandomSongs() {
-    let n = 5; // should be configurable in settings later on
+    let n = 5; 
     let playlistSize = tracks.length
     if (chosenTracks.length !== 0) {
       chosenTracks = [];
       return;
     }
     let chosenIndex = -1;
-  
     for (let i = 0; i < n; i++) {
       chosenIndex = Math.floor(Math.random() * (playlistSize - i));
       chosenTracks.push(tracks[chosenIndex]);
       tracks.splice(chosenIndex, 1);
     }
-   // console.log('*****')
+    //console.log('*****')
     setTracks(chosenTracks);
     localStorage.setItem('currentSongId',chosenTracks[0].id)
     localStorage.setItem('currentSongName',chosenTracks[0].name)
-   // console.log('test')
+    //console.log('test')
     //console.log(tracks)
   }
   
@@ -92,19 +85,17 @@ function Game() {
 
   useEffect(() => {
     getUserPlaylists();
-  },[]);
+  }, []);
 
   useEffect(() => {
     getRandomPlaylist();
   }, [userPlaylists]);
-
 
   return (
     <div className = "text-white h-screen w-screen items-center">
       <h1 className='text-center m-3 underline'>Game</h1>
       <Player selectedSongs={tracks}/>
       <SearchBar/>
-
     </div>
   );
 }
